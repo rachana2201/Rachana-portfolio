@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Rachana Rahane | Software Developer</title>
+
+    <meta
+      name="description"
+      content="Rachana Rahane — Software Developer and Engineering Student portfolio."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <header class="top">
+      <a href="#" class="brand"> <span>R</span> Rachana. </a>
+
+      <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">HELLO, I'M RACHANA 👋</p>
+
+          <h1>
+            Software Developer
+            <span>building ideas into reality.</span>
+          </h1>
+
+          <p class="hero-text">
+            I'm an engineering student passionate about building web
+            applications, solving problems and learning new technologies.
+          </p>
+
+          <div class="hero-buttons">
+            <a class="btn" href="#projects"> View My Work </a>
+
+            <a class="btn btn-outline" href="#contact"> Let's Connect </a>
+          </div>
+
+          <div class="socials">
+            <a
+              href="https://github.com/rachana2201"
+              target="_blank"
+              rel="noopener"
+            >
+              GitHub ↗
+            </a>
+
+            <a href="#contact"> Contact ↗ </a>
+          </div>
+        </div>
+
+        <div class="hero-decoration">
+          <div class="circle"></div>
+
+          <div class="hero-card">
+            <span>Currently</span>
+
+            <strong> Building & Learning </strong>
+
+            <small> React • Node.js • MongoDB </small>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="about">
+        <div class="section-heading">
+          <span>01</span>
+
+          <h2>About Me</h2>
+        </div>
+
+        <div class="about-grid">
+          <div>
+            <p class="big-text">
+              I enjoy turning ideas into clean, functional and user-friendly
+              digital experiences.
+            </p>
+          </div>
+
+          <div class="about-text">
+            <p>
+              I'm Rachana, an engineering student with a strong interest in
+              software development and full-stack web technologies.
+            </p>
+
+            <p>
+              I have worked with technologies including Java, C++, JavaScript,
+              React, Node.js, Express, MongoDB, Python and Django.
+            </p>
+
+            <p>
+              Outside coding, I enjoy sketching and painting — which also
+              influences the way I think about design and user experience.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section id="skills">
+        <div class="section-heading">
+          <span>02</span>
+
+          <h2>Skills</h2>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-number">01</div>
+
+            <h3>Frontend</h3>
+
+            <p>HTML, CSS, JavaScript, React, Tailwind CSS</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-number">02</div>
+
+            <h3>Backend</h3>
+
+            <p>Node.js, Express.js, Django, REST APIs</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-number">03</div>
+
+            <h3>Database</h3>
+
+            <p>MongoDB, MongoDB Atlas, SQLite</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-number">04</div>
+
+            <h3>Programming</h3>
+
+            <p>Java, C++, JavaScript, Python</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-number">05</div>
+
+            <h3>Tools</h3>
+
+            <p>Git, GitHub, VS Code, Postman</p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-number">06</div>
+
+            <h3>Other</h3>
+
+            <p>Machine Learning, APIs, Responsive Design</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects">
+        <div class="section-heading project-heading">
+          <div>
+            <span>03</span>
+
+            <h2>Selected Projects</h2>
+          </div>
+
+          <p>Things I've built while learning and experimenting.</p>
+        </div>
+
+        <div id="project-list" class="project-grid" aria-live="polite">
+          <p class="muted">Loading projects...</p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="contact">
+        <div class="section-heading">
+          <span>04</span>
+
+          <h2>Let's Connect</h2>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-intro">
+            <h3>Have a project or opportunity?</h3>
+
+            <p>
+              I'm always open to discussing software development opportunities,
+              projects and interesting ideas.
+            </p>
+
+            <a
+              class="github-link"
+              href="https://github.com/rachana2201"
+              target="_blank"
+              rel="noopener"
+            >
+              GitHub ↗
+            </a>
+          </div>
+
+          <form id="contact-form">
+            <label>
+              Name
+
+              <input
+                name="name"
+                required
+                maxlength="100"
+                placeholder="Your name"
+              />
+            </label>
+
+            <label>
+              Email
+
+              <input
+                name="email"
+                type="email"
+                required
+                maxlength="200"
+                placeholder="your@email.com"
+              />
+            </label>
+
+            <label>
+              Message
+
+              <textarea
+                name="body"
+                rows="5"
+                required
+                maxlength="2000"
+                placeholder="Tell me something..."
+              ></textarea>
+            </label>
+
+            <button class="btn" type="submit">Send Message ↗</button>
+
+            <p id="form-status" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Rachana Rahane</p>
+
+      <a href="#"> Back to top ↑ </a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
