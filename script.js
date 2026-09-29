@@ -1,187 +1,141 @@
-const esc = (value) => {
-  return String(value ?? "").replace(/[&<>"']/g, (character) => {
-    const characters = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;",
-    };
+const projectList = document.getElementById("project-list");
+const contactForm = document.getElementById("contact-form");
+const year = document.getElementById("year");
 
-    return characters[character];
-  });
-};
-
-const safeUrl = (url) => {
-  try {
-    const parsedUrl = new URL(url);
-
-    if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
-      return esc(parsedUrl.href);
-    }
-
-    return "";
-  } catch {
-    return "";
-  }
-};
-
-/* =========================
-   LOAD PROJECTS
-========================= */
-
+// Load projects
 async function loadProjects() {
-  const projectList = document.getElementById("project-list");
-
   try {
+    projectList.innerHTML = "<p>Loading projects...</p>";
+
     const response = await fetch("/api/projects");
 
     if (!response.ok) {
-      throw new Error("Could not load projects");
+      throw new Error(`HTTP error: ${response.status}`);
     }
 
     const projects = await response.json();
 
-    if (!projects.length) {
-      projectList.innerHTML = `
-        <p class="muted">
-          No projects found. Run
-          <code>npm run seed</code>
-          to add your projects.
-        </p>
-      `;
+    console.log("Projects loaded:", projects);
 
+    if (!projects.length) {
+      projectList.innerHTML = "<p>No projects available.</p>";
       return;
     }
 
     projectList.innerHTML = projects
       .map((project) => {
-        const liveUrl = safeUrl(project.liveUrl);
-        const repoUrl = safeUrl(project.repoUrl);
-
-        const technologies = (project.tech || [])
-          .map((technology) => {
-            return `<li>${esc(technology)}</li>`;
-          })
-          .join("");
-
-        const liveButton = liveUrl
-          ? `
-            <a
-              href="${liveUrl}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Live Demo ↗
-            </a>
-          `
+        const tech = Array.isArray(project.tech)
+          ? project.tech
+              .map((item) => `<span class="tech">${escapeHtml(item)}</span>`)
+              .join("")
           : "";
 
-        const githubButton = repoUrl
-          ? `
-            <a
-              href="${repoUrl}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub ↗
-            </a>
-          `
+        const repoButton = project.repoUrl
+          ? `<a href="${safeUrl(project.repoUrl)}" target="_blank" rel="noopener noreferrer" class="project-link">View on GitHub →</a>`
+          : "";
+
+        const liveButton = project.liveUrl
+          ? `<a href="${safeUrl(project.liveUrl)}" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo →</a>`
           : "";
 
         return `
-          <article class="card ${project.featured ? "featured" : ""}">
+          <article class="project-card">
+            ${project.featured ? '<span class="featured">Featured</span>' : ""}
 
-            <h3>
-              ${esc(project.title)}
-            </h3>
+            <h3>${escapeHtml(project.title)}</h3>
 
-            <p>
-              ${esc(project.description)}
-            </p>
+            <p>${escapeHtml(project.description)}</p>
 
-            <ul class="tags">
-              ${technologies}
-            </ul>
-
-            <div class="links">
-              ${liveButton}
-              ${githubButton}
+            <div class="project-tech">
+              ${tech}
             </div>
 
+            <div class="project-links">
+              ${repoButton}
+              ${liveButton}
+            </div>
           </article>
         `;
       })
       .join("");
   } catch (error) {
-    console.error("Projects error:", error);
+    console.error("Error loading projects:", error);
 
     projectList.innerHTML = `
-      <p class="muted">
-        Projects failed to load.
-        Please make sure the server is running.
+      <p>
+        Unable to load projects right now.
       </p>
     `;
   }
 }
 
-/* =========================
-   CONTACT FORM
-========================= */
+// Escape HTML
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
-const contactForm = document.getElementById("contact-form");
+// Allow only HTTP/HTTPS URLs
+function safeUrl(url) {
+  try {
+    const parsed = new URL(url);
 
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.href;
+    }
+
+    return "#";
+  } catch {
+    return "#";
+  }
+}
+
+// Contact form
 if (contactForm) {
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const status = document.getElementById("form-status");
+    const formData = new FormData(contactForm);
 
-    status.textContent = "Sending...";
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      body: formData.get("body"),
+    };
 
     try {
-      const formData = new FormData(contactForm);
-
-      const data = Object.fromEntries(formData);
-
       const response = await fetch("/api/contact", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Message could not be sent");
+        throw new Error(result.error || "Something went wrong");
       }
 
+      alert("Message sent successfully!");
+
       contactForm.reset();
-
-      status.textContent =
-        "Message sent successfully! Thanks for reaching out.";
     } catch (error) {
-      console.error("Contact error:", error);
-
-      status.textContent = "Message could not be sent. Please try again.";
+      console.error("Contact form error:", error);
+      alert("Unable to send message. Please try again.");
     }
   });
 }
 
-/* =========================
-   CURRENT YEAR
-========================= */
-
-const yearElement = document.getElementById("year");
-
-if (yearElement) {
-  yearElement.textContent = new Date().getFullYear();
+// Current year
+if (year) {
+  year.textContent = new Date().getFullYear();
 }
 
-/* =========================
-   START
-========================= */
-
+// Start loading projects
 loadProjects();
